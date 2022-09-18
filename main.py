@@ -19,10 +19,10 @@ def main():
         exit()
     else:
         exec(f"global {eval(user_input)['lyrics']}; {eval(user_input)['lyrics']}=lyrics.{eval(user_input)['lyrics']}")
-    exec(f"play(user_input,{user_input}['name'],{user_input}['author'],{user_input}['file'],{user_input}['lyrics'])")
+    exec(f"play(user_input,{user_input}['name'],{user_input}['author'],{user_input}['file'],{user_input}['lyrics'],{user_input}['min'],{user_input}['max'])")
 
-def play(user_input, name, author, file, lyric):
-    time=float(0.0)
+def play(user_input, name, author, file, lyric, min, max):
+    time=float(min)
     clear()
     print("Name: {}\nMusic: {}\nAuthor: {}\n[Ctrl + C] to exit!\n".format(user_input, name, author))
     try:
@@ -30,17 +30,24 @@ def play(user_input, name, author, file, lyric):
     except:
         print("File not found or playsound version is not 1.2.2")
         exit()
-    while 1:
-        try:
-            temp=eval(lyric)[f"{time}"]
-            if (temp == ""):
-                print(f"\r                                                                         \r", end="", flush=True)
+    try:
+        while 1:
+            print(f"\r{time}\r", end="", flush=True)
+            try:
+                temp=eval(lyric)[f"{time}"]
+                if (temp == ""):
+                    print(f"\r{time}                                                                                \r", end="", flush=True)
+                else:
+                    print(f"\r{time}  {temp}\r", end="", flush=True)
+            except:
+                pass
+            sleep(0.1)
+            if (str(time) == str(max)):
+                exit()
             else:
-                print(f"\r{temp}\r", end="", flush=True)
-        except:
-            pass
-        sleep(0.1)
-        time=round(float(time + 0.1), 1)
+                time=round(float(time + 0.1), 1)
+    except:
+        pass
     print("Stopping...")
     exit()
 
